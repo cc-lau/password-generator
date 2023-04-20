@@ -6,6 +6,12 @@
   --foreground-rgb: 255, 255, 255;
   --background-start-rgb: 20, 19, 27;
   --background-end-rgb: 9, 8, 3;
+  --main-color: rgb(163 255 170);
+  --main-color-hover: rgb(104, 117, 217, 0.2);
+  --track-color: rgb(24 23 31);
+  /* Default mark color*/
+  --mark-color: #aaaaaa;
+  --card-color: rgb(36 35 43);
 }
 
 body {
@@ -16,4 +22,45 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+}
+
+.card {
+  background-color: var(--card-color);
+}
+
+.customSlider {
+  width: 100%;
+  margin: auto;
+}
+
+.customSlider-track {
+  top: 8px;
+  height: 4px;
+  background: var(--track-color);
+}
+
+.customSlider-track.customSlider-track-0 {
+  background: var(--main-color);
+}
+
+.customSlider-thumb {
+  cursor: pointer;
+  /*color for the thumb */
+  background: var(--track-color);
+  /* shape of the thumb: circle */
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  border: solid 1px var(--main-color);
+  /* remove default outline when selected */
+  outline: none;
+}
+
+.customSlider-thumb:hover {
+  box-shadow: 0 0 0 8px var(--main-color-hover);
+}
+
+.customCheckbox:checked::after {
+  /*   content: url("/done_FILL0_wght400_GRAD0_opsz48.svg");
+ */
 }
