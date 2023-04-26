@@ -1,28 +1,39 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import ReactSlider from "react-slider";
 
 export default function Home() {
-  const [currentValue, setCurrentValue] = useState(0);
+  const [charLength, setCharLength] = useState(0);
   const [password, setPassword] = useState("");
   const [upperCaseSelected, setUpperCaseSelected] = useState(false);
   const [lowerCaseSelected, setLowerCaseSelected] = useState(false);
   const [numbersSelected, setNumbersSelected] = useState(false);
   const [symbolsSelected, setSymbolsSelected] = useState(false);
+  const [includedSets, setIncludedSets] = useState([]);
+  const CHARACTER_SETS = {
+    uppercase: ["ABCDEFGHIJKLMNOPQRSTUVWXYZ"],
+    lowercase: ["abcdefghijklmnopqrstuvwxyz"],
+    numbers: ["1234567890"],
+    symbols: ["!@#$%^&*()"],
+  };
 
   function handleChecked(event, option) {
     switch (option) {
-      case "upperCase":
+      case "uppercase":
         setUpperCaseSelected(event.target.checked);
+        addIncludedSet(CHARACTER_SETS.uppercase, upperCaseSelected);
         break;
-      case "lowerCase":
+      case "lowercase":
         setLowerCaseSelected(event.target.checked);
+        addIncludedSet(CHARACTER_SETS.lowercase, lowerCaseSelected);
         break;
       case "numbers":
         setNumbersSelected(event.target.checked);
+        addIncludedSet(CHARACTER_SETS.numbers, numbersSelected);
         break;
       case "symbols":
-        setSymbolsSelected(event.target.checked);
+        setSymbolsSelected(event.target.checked, symbolsSelected);
+        addIncludedSet(CHARACTER_SETS.symbols);
         break;
 
       default:
@@ -30,24 +41,27 @@ export default function Home() {
     }
   }
 
-  function generatePassword() {
-    if (
-      upperCaseSelected ||
-      lowerCaseSelected ||
-      numbersSelected ||
-      symbolsSelected
-    ) {
-      setPassword(Math.random(200));
-    } else {
-      return;
+  const generatePassword = () => {
+    let result = " ";
+    console.log(includedSets);
+    let SELECTED_CHARS = includedSets;
+    console.log(SELECTED_CHARS);
+    let FLATTENED_CHARS = SELECTED_CHARS.flat();
+    let JOINED_CHARS = FLATTENED_CHARS.join("");
+    console.log(JOINED_CHARS);
+    const charactersLength = JOINED_CHARS.length;
+    console.log(JOINED_CHARS.length);
+    for (let i = 0; i < 26; i++) {
+      result += JOINED_CHARS.charAt(
+        Math.floor(Math.random() * charactersLength)
+      );
     }
-  }
+    return setPassword(result);
+  };
 
-  const CHARACTER_SETS = {
-    uppercase: ["ABCDEFGHIJKLMNOPQRSTUVWXYZ", 26],
-    lowercase: ["abcdefghijklmnopqrstuvwxyz", 26],
-    numbers: ["1234567890", 10],
-    symbols: ["!@#$%^&*()", 10],
+  const addIncludedSet = (charSet) => {
+    setIncludedSets((prevSet) => [...prevSet, charSet]);
+    console.log(includedSets);
   };
 
   return (
@@ -61,7 +75,7 @@ export default function Home() {
         <div>
           <div className="flex flex-row justify-between">
             <h2>Character Length</h2>
-            <h2>{currentValue}</h2>
+            <h2>{charLength}</h2>
           </div>
           <div className="m-auto py-2">
             <ReactSlider
@@ -71,8 +85,8 @@ export default function Home() {
               markClassName="customSlider-mark"
               min={0}
               max={16}
-              value={currentValue}
-              onChange={(value) => setCurrentValue(value)}
+              value={charLength}
+              onChange={(value) => setCharLength(value)}
             />
           </div>
         </div>
@@ -81,11 +95,11 @@ export default function Home() {
             <input
               className="customCheckbox w-4 h-4 appearance-none checked:bg-main-color border rounded-sm border-main-color transition-colors duration-300"
               type="checkbox"
-              name="upperCase"
-              value="upperCase"
-              onChange={(e) => handleChecked(e, "upperCase")}
+              name="uppercase"
+              value="uppercase"
+              onChange={(e) => handleChecked(e, "uppercase")}
             />
-            <p className="text-md">Include Uppercase Letters</p>
+            <p className="text-md">Include uppercase Letters</p>
           </label>
           <label className="flex gap-4 items-center">
             <input
@@ -93,7 +107,7 @@ export default function Home() {
               type="checkbox"
               name="lowercase"
               value="lowercase"
-              onChange={(e) => handleChecked(e, "lowerCase")}
+              onChange={(e) => handleChecked(e, "lowercase")}
             />
             <p>Include Lowercase Letters</p>
           </label>
