@@ -5,64 +5,64 @@ import ReactSlider from "react-slider";
 export default function Home() {
   const [charLength, setCharLength] = useState(0);
   const [password, setPassword] = useState("");
-  const [upperCaseSelected, setUpperCaseSelected] = useState(false);
-  const [lowerCaseSelected, setLowerCaseSelected] = useState(false);
-  const [numbersSelected, setNumbersSelected] = useState(false);
-  const [symbolsSelected, setSymbolsSelected] = useState(false);
-  const [includedSets, setIncludedSets] = useState([]);
+  const [selections, setSelections] = useState({
+    uppercase: false,
+    lowercase: false,
+    numbers: false,
+    symbols: false,
+  });
+  const [includedSets, setIncludedSets] = useState("");
+
   const CHARACTER_SETS = {
-    uppercase: ["ABCDEFGHIJKLMNOPQRSTUVWXYZ"],
-    lowercase: ["abcdefghijklmnopqrstuvwxyz"],
-    numbers: ["1234567890"],
-    symbols: ["!@#$%^&*()"],
+    uppercase: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+    lowercase: "abcdefghijklmnopqrstuvwxyz",
+    numbers: "1234567890",
+    symbols: "!@#$%^&*()",
   };
-
-  function handleChecked(event, option) {
-    switch (option) {
-      case "uppercase":
-        setUpperCaseSelected(event.target.checked);
-        addIncludedSet(CHARACTER_SETS.uppercase, upperCaseSelected);
-        break;
-      case "lowercase":
-        setLowerCaseSelected(event.target.checked);
-        addIncludedSet(CHARACTER_SETS.lowercase, lowerCaseSelected);
-        break;
-      case "numbers":
-        setNumbersSelected(event.target.checked);
-        addIncludedSet(CHARACTER_SETS.numbers, numbersSelected);
-        break;
-      case "symbols":
-        setSymbolsSelected(event.target.checked, symbolsSelected);
-        addIncludedSet(CHARACTER_SETS.symbols);
-        break;
-
-      default:
-        break;
-    }
-  }
 
   const generatePassword = () => {
     let result = " ";
-    console.log(includedSets);
-    let SELECTED_CHARS = includedSets;
-    console.log(SELECTED_CHARS);
-    let FLATTENED_CHARS = SELECTED_CHARS.flat();
-    let JOINED_CHARS = FLATTENED_CHARS.join("");
-    console.log(JOINED_CHARS);
-    const charactersLength = JOINED_CHARS.length;
-    console.log(JOINED_CHARS.length);
+    const charactersLength = includedSets.length;
+    console.log(includedSets.length);
     for (let i = 0; i < 26; i++) {
-      result += JOINED_CHARS.charAt(
+      result += includedSets.charAt(
         Math.floor(Math.random() * charactersLength)
       );
     }
     return setPassword(result);
   };
 
-  const addIncludedSet = (charSet) => {
-    setIncludedSets((prevSet) => [...prevSet, charSet]);
+  const handleClick = (e) => {
+    const { name } = e.target;
+    console.log(name);
+    setSelections((prevState) => ({
+      ...prevState,
+      [name]: e.target.checked,
+    }));
+  };
+
+  const addIncludedSet = () => {
+    let INCLUDED_SETS = [];
+    if (selections.uppercase) {
+      INCLUDED_SETS += CHARACTER_SETS.uppercase;
+    }
+    if (selections.lowercase) {
+      INCLUDED_SETS += CHARACTER_SETS.lowercase;
+    }
+    if (selections.numbers) {
+      INCLUDED_SETS += CHARACTER_SETS.numbers;
+    }
+    if (selections.symbols) {
+      INCLUDED_SETS += CHARACTER_SETS.symbols;
+    }
+    setIncludedSets(INCLUDED_SETS);
     console.log(includedSets);
   };
+
+  useEffect(() => {
+    addIncludedSet();
+    console.log(selections);
+  }, [selections]);
 
   return (
     <main className="flex min-h-screen flex-col gap-4 items-center py-10 px-12 mt-14">
@@ -96,8 +96,8 @@ export default function Home() {
               className="customCheckbox w-4 h-4 appearance-none checked:bg-main-color border rounded-sm border-main-color transition-colors duration-300"
               type="checkbox"
               name="uppercase"
-              value="uppercase"
-              onChange={(e) => handleChecked(e, "uppercase")}
+              value={selections.uppercase}
+              onChange={handleClick}
             />
             <p className="text-md">Include uppercase Letters</p>
           </label>
@@ -106,8 +106,8 @@ export default function Home() {
               className="customCheckbox w-4 h-4 appearance-none checked:bg-main-color border rounded-sm border-main-color transition-colors duration-300"
               type="checkbox"
               name="lowercase"
-              value="lowercase"
-              onChange={(e) => handleChecked(e, "lowercase")}
+              value={selections.lowercase}
+              onChange={handleClick}
             />
             <p>Include Lowercase Letters</p>
           </label>
@@ -116,8 +116,8 @@ export default function Home() {
               className="customCheckbox w-4 h-4 appearance-none checked:bg-main-color border rounded-sm border-main-color transition-colors duration-300"
               type="checkbox"
               name="numbers"
-              value="numbers"
-              onChange={(e) => handleChecked(e, "numbers")}
+              value={selections.numbers}
+              onChange={handleClick}
             />
             <p>Include Numbers</p>
           </label>
@@ -126,8 +126,8 @@ export default function Home() {
               className="customCheckbox w-4 h-4 appearance-none checked:bg-main-color border rounded-sm border-main-color transition-colors duration-300"
               type="checkbox"
               name="symbols"
-              value="symbols"
-              onChange={(e) => handleChecked(e, "symbols")}
+              value={selections.symbols}
+              onChange={handleClick}
             />
             <p>Include Symbols</p>
           </label>
