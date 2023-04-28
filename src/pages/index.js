@@ -82,7 +82,13 @@ export default function Home() {
       <h1>Password Generator</h1>
       <div className="card flex justify-between w-full bg-zinc-700 px-3 py-2">
         <h2>{password}</h2>
-        <ContentCopyIcon />
+        <ContentCopyIcon
+          className="copy-icon"
+          onClick={() => {
+            navigator.clipboard.writeText(password);
+          }}
+        />
+        ``
       </div>
       <div className="card flex flex-col w-full gap-6  px-4 py-6">
         <div>
@@ -104,6 +110,12 @@ export default function Home() {
           </div>
         </div>
         <div className="mt-2 flex flex-col gap-1">
+          {!selections.uppercase &&
+          !selections.lowercase &&
+          !selections.numbers &&
+          !selections.symbols ? (
+            <h2 className="text-red-600">Please select at least 1 option.</h2>
+          ) : null}
           <label className="flex gap-4 items-center">
             <input
               className="customCheckbox w-4 h-4 appearance-none checked:bg-main-color border rounded-sm border-main-color transition-colors duration-300"
