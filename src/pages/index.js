@@ -3,7 +3,7 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import ReactSlider from "react-slider";
 
 export default function Home() {
-  const [charLength, setCharLength] = useState(0);
+  const [charLength, setCharLength] = useState(8);
   const [password, setPassword] = useState("");
   const [selections, setSelections] = useState({
     uppercase: false,
@@ -21,15 +21,24 @@ export default function Home() {
   };
 
   const generatePassword = () => {
-    let result = " ";
-    const charactersLength = includedSets.length;
-    console.log(includedSets.length);
-    for (let i = 0; i < 26; i++) {
-      result += includedSets.charAt(
-        Math.floor(Math.random() * charactersLength)
-      );
+    if (
+      !selections.uppercase &&
+      !selections.lowercase &&
+      !selections.numbers &&
+      !selections.symbols
+    ) {
+      return <h1>Please select at least 1 option.</h1>;
+    } else {
+      let result = " ";
+      const charactersLength = includedSets.length;
+      console.log(includedSets.length);
+      for (let i = 0; i < charLength; i++) {
+        result += includedSets.charAt(
+          Math.floor(Math.random() * charactersLength)
+        );
+      }
+      return setPassword(result);
     }
-    return setPassword(result);
   };
 
   const handleClick = (e) => {
@@ -64,6 +73,10 @@ export default function Home() {
     console.log(selections);
   }, [selections]);
 
+  useEffect(() => {
+    generatePassword();
+  }, [charLength]);
+
   return (
     <main className="flex min-h-screen flex-col gap-4 items-center py-10 px-12 mt-14">
       <h1>Password Generator</h1>
@@ -74,7 +87,7 @@ export default function Home() {
       <div className="card flex flex-col w-full gap-6  px-4 py-6">
         <div>
           <div className="flex flex-row justify-between">
-            <h2>Character Length</h2>
+            <h2>Password Length</h2>
             <h2>{charLength}</h2>
           </div>
           <div className="m-auto py-2">
@@ -84,7 +97,7 @@ export default function Home() {
               trackClassName="customSlider-track"
               markClassName="customSlider-mark"
               min={0}
-              max={16}
+              max={20}
               value={charLength}
               onChange={(value) => setCharLength(value)}
             />
@@ -132,7 +145,7 @@ export default function Home() {
             <p>Include Symbols</p>
           </label>
         </div>
-        <div className="bg-slate-600 p-3">
+        <div className="strength-container p-3">
           <h2>STRENGTH</h2>
           <p></p>
         </div>
