@@ -12,6 +12,7 @@ export default function Home() {
     symbols: false,
   });
   const [includedSets, setIncludedSets] = useState("");
+  const [showCopied, setShowCopied] = useState(false);
 
   const CHARACTER_SETS = {
     uppercase: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
@@ -50,6 +51,14 @@ export default function Home() {
     }));
   };
 
+  const handleCopy = () => {
+    navigator.clipboard.writeText(password);
+    setTimeout(() => {
+      setShowCopied(false);
+    }, 700);
+    setShowCopied(true);
+  };
+
   const addIncludedSet = () => {
     let INCLUDED_SETS = [];
     if (selections.uppercase) {
@@ -68,6 +77,21 @@ export default function Home() {
     console.log(includedSets);
   };
 
+  const progressColor = () => {
+    switch (testResult.score) {
+      case 0:
+        return "#";
+      case 1:
+        return "#";
+      case 3:
+        return "#";
+      case 4:
+        return "#";
+      default:
+        return "none";
+    }
+  };
+
   useEffect(() => {
     addIncludedSet();
     console.log(selections);
@@ -78,23 +102,23 @@ export default function Home() {
   }, [charLength]);
 
   return (
-    <main className="flex min-h-screen flex-col gap-4 items-center py-10 px-12 mt-14">
-      <h1>Password Generator</h1>
-      <div className="card flex justify-between w-full bg-zinc-700 px-3 py-2">
-        <h2>{password}</h2>
-        <ContentCopyIcon
-          className="copy-icon"
-          onClick={() => {
-            navigator.clipboard.writeText(password);
-          }}
-        />
-        ``
+    <main className="flex min-h-screen flex-col gap-4 items-center py-10 px-12 mt-6 lg:max-w-xl m-auto">
+      <h1 className="text-xl">Password Generator</h1>
+      <div className="card flex justify-between w-full bg-zinc-700 px-4 py-2 lg:text-xl text-lg">
+        {showCopied ? (
+          <h2 className="text-main-color">COPIED!</h2>
+        ) : (
+          <h2> {password}</h2>
+        )}
+        <ContentCopyIcon className="copy-icon" onClick={handleCopy} />
       </div>
-      <div className="card flex flex-col w-full gap-6  px-4 py-6">
+      <div className="card flex flex-col w-full gap-6  px-4 lg:px-6 py-6">
         <div>
-          <div className="flex flex-row justify-between">
+          <div className="flex flex-row justify-between items-baseline pb-2">
             <h2>Password Length</h2>
-            <h2>{charLength}</h2>
+            <h2 className="lg:text-2xl text-xl text-main-color">
+              {charLength}
+            </h2>
           </div>
           <div className="m-auto py-2">
             <ReactSlider
@@ -109,12 +133,14 @@ export default function Home() {
             />
           </div>
         </div>
-        <div className="mt-2 flex flex-col gap-1">
+        <div className="mt-2 flex flex-col gap-1 text-md lg:text-lg">
           {!selections.uppercase &&
           !selections.lowercase &&
           !selections.numbers &&
           !selections.symbols ? (
-            <h2 className="text-red-600">Please select at least 1 option.</h2>
+            <h2 className="text-red-600 text-sm lg:text-lg">
+              Please select at least 1 option
+            </h2>
           ) : null}
           <label className="flex gap-4 items-center">
             <input
