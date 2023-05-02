@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url(./PasswordStrengthMeter.css);
 @import url("https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap");
 
 :root {

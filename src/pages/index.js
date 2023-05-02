@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import ReactSlider from "react-slider";
+import PasswordStrengthMeter from "./PasswordStrengthMeter";
 
 export default function Home() {
   const [charLength, setCharLength] = useState(8);
@@ -183,9 +184,9 @@ export default function Home() {
             <p>Include Symbols</p>
           </label>
         </div>
-        <div className="strength-container p-3">
+        <div className="flex gap-10 w-full strength-container p-3">
           <h2>STRENGTH</h2>
-          <p></p>
+          <PasswordStrengthMeter password={password} />
         </div>
         <button
           onClick={generatePassword}
