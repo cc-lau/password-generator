@@ -126,7 +126,7 @@ export default function Home() {
               thumbClassName="customSlider-thumb"
               trackClassName="customSlider-track"
               markClassName="customSlider-mark"
-              min={0}
+              min={4}
               max={20}
               value={charLength}
               onChange={(value) => setCharLength(value)}
