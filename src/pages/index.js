@@ -95,7 +95,6 @@ export default function Home() {
 
   useEffect(() => {
     addIncludedSet();
-    console.log(selections);
   }, [selections]);
 
   useEffect(() => {

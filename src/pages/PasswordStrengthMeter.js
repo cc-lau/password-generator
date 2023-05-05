@@ -2,7 +2,7 @@ import React from "react";
 import zxcvbn from "zxcvbn";
 
 function PasswordStrengthMeter(props) {
-  const password = props.password.toString();
+  const password = props.password;
   const testedResult = zxcvbn(password);
 
   const createPasswordLabel = (result) => {
