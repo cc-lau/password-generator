@@ -33,7 +33,6 @@ export default function Home() {
     } else {
       let result = " ";
       const charactersLength = includedSets.length;
-      console.log(includedSets.length);
       for (let i = 0; i < charLength; i++) {
         result += includedSets.charAt(
           Math.floor(Math.random() * charactersLength)
