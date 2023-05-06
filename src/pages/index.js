@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import ReactSlider from "react-slider";
-import PasswordStrengthMeter from "./PasswordStrengthMeter";
+import PasswordStrengthMeter from "./api/PasswordStrengthMeter";
 
 export default function Home() {
   const [charLength, setCharLength] = useState(8);
