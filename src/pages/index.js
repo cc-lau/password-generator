@@ -77,27 +77,14 @@ export default function Home() {
     console.log(includedSets);
   };
 
-  const progressColor = () => {
-    switch (testResult.score) {
-      case 0:
-        return "#";
-      case 1:
-        return "#";
-      case 3:
-        return "#";
-      case 4:
-        return "#";
-      default:
-        return "none";
-    }
-  };
-
   useEffect(() => {
     addIncludedSet();
   }, [selections]);
 
   useEffect(() => {
-    generatePassword();
+    if (includedSets) {
+      generatePassword();
+    }
   }, [charLength]);
 
   return (
