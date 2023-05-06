@@ -82,9 +82,7 @@ export default function Home() {
   }, [selections]);
 
   useEffect(() => {
-    if (includedSets) {
-      generatePassword();
-    }
+    generatePassword();
   }, [charLength]);
 
   return (
