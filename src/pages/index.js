@@ -86,7 +86,7 @@ export default function Home() {
   }, [charLength]);
 
   return (
-    <main className="flex min-h-screen flex-col gap-4 items-center py-10 px-12 mt-6 lg:max-w-xl m-auto">
+    <main className="flex justify-center min-h-screen flex-col gap-4 items-center py-10 px-12 lg:max-w-xl m-auto">
       <h1 className="text-xl">Password Generator</h1>
       <div className="card flex justify-between w-full bg-zinc-700 px-4 py-2 lg:text-xl text-lg">
         {showCopied ? (
