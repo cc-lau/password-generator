@@ -1,4 +1,4 @@
-<div align="center">🔒</div>
+<h1 align="center">🔒</h1>
 
 <h2>About the project</h2>
 
@@ -16,6 +16,6 @@
 <h3 align="center">Home Page 🏡</h3>
 
 <div>
-<img src="./public/pwsc.png"/>
+<img src="./public/pwscnew.png"/>
 
 </div>
